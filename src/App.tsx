@@ -125,7 +125,9 @@ export default function App() {
           <span className="font-display font-medium text-sm tracking-[0.2em] uppercase">Sam.</span>
           <div className="flex gap-6">
             <a 
-              href="#" 
+              href="https://instagram.com/" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-sm uppercase tracking-widest hover:opacity-50 transition-opacity hidden md:block"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -445,7 +447,7 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-4 md:p-12"
+            className="fixed inset-0 z-[200] bg-black/30 backdrop-blur-xl flex items-center justify-center p-4 md:p-12"
             onClick={() => setActiveVideo(null)}
             style={{ cursor: 'auto' }}
           >
@@ -457,7 +459,7 @@ export default function App() {
               <X className="w-10 h-10" />
             </button>
             <div 
-              className="w-full max-w-6xl aspect-video bg-black rounded-lg overflow-hidden relative shadow-2xl"
+              className="w-full max-w-6xl aspect-video bg-transparent rounded-xl overflow-hidden relative shadow-[0_0_80px_rgba(255,255,255,0.15)] ring-1 ring-white/20"
               onClick={(e) => e.stopPropagation()}
             >
               <iframe
