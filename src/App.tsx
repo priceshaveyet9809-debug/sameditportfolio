@@ -1,62 +1,55 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Mail, Instagram, Play, ArrowUpRight, Globe, ExternalLink } from 'lucide-react';
+import { Mail, Instagram, Play, ArrowUpRight, Globe, ExternalLink, X } from 'lucide-react';
 
 const PORTFOLIO_ITEMS = [
   {
     id: 1,
     title: 'The Glass House',
     category: 'Real Estate',
-    // To use a YouTube thumbnail, use the format: https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg
-    image: 'https://img.youtube.com/vi/tO01J-M3g0U/maxresdefault.jpg',
+    youtubeId: 'L_LUpnjgPso',
     type: 'video',
     orientation: 'landscape',
-    youtubeLink: 'https://www.youtube.com/watch?v=cu17V4nZK-c'
   },
   {
     id: 2,
     title: 'Vertical Reel: Penthouse',
     category: 'Real Estate',
-    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    youtubeId: 'y9j-BL5ocW8',
     type: 'video',
     orientation: 'portrait',
-    vimeoLink: 'https://www.dropbox.com/scl/fi/c3xzdgi5m0f1o6k93r3zy/V3.mp4?rlkey=mb2t9lyuyf7fk2mb52721kxc9&st=2no80bc1&dl=0'
   },
   {
     id: 3,
     title: 'Metropolitan Gala',
     category: 'Events',
-    image: 'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    youtubeId: '8_4JjZEZz8U',
     type: 'video',
     orientation: 'landscape',
-    vimeoLink: 'https://vimeo.com/123456789'
   },
   {
     id: 4,
     title: 'Neon Nights Festival',
     category: 'Events',
-    image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    youtubeId: 'aqz-KE-bpKQ',
     type: 'video',
     orientation: 'landscape',
-    vimeoLink: 'https://vimeo.com/123456789'
   },
   {
     id: 5,
     title: 'Reel: Summer Vibes',
     category: 'Events',
-    image: 'https://images.unsplash.com/photo-1533174000228-4f59c2be2c76?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    youtubeId: 'LXb3EKWsInQ',
     type: 'video',
     orientation: 'portrait',
-    vimeoLink: 'https://vimeo.com/123456789'
   },
   {
     id: 6,
     title: 'Skyline Penthouse',
     category: 'Real Estate',
-    image: 'https://images.unsplash.com/photo-1600607687931-cebf0746e50e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    youtubeId: 'wnhvanZPF4U',
     type: 'video',
     orientation: 'landscape',
-    vimeoLink: 'https://vimeo.com/123456789'
   }
 ];
 
@@ -65,6 +58,15 @@ export default function App() {
   const [isHovering, setIsHovering] = useState(false);
   const [visibleCount, setVisibleCount] = useState(3);
   const [time, setTime] = useState(new Date());
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (activeVideo) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [activeVideo]);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -285,11 +287,9 @@ export default function App() {
           <div className="flex flex-col gap-20 md:gap-32">
             <AnimatePresence mode="popLayout">
               {PORTFOLIO_ITEMS.slice(0, visibleCount).map((item, index) => (
-                <motion.a 
-                  href={item.vimeoLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <motion.div 
                   key={item.id}
+                  onClick={() => setActiveVideo(item.youtubeId)}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
@@ -300,7 +300,10 @@ export default function App() {
                 >
                   <div className={`w-full ${item.orientation === 'portrait' ? 'md:w-1/3' : 'md:w-2/3'} overflow-hidden bg-[var(--color-surface)]`}>
                     <img 
-                      src={item.image} 
+                      src={`https://img.youtube.com/vi/${item.youtubeId}/maxresdefault.jpg`}
+                      onError={(e) => {
+                        e.currentTarget.src = `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`;
+                      }}
                       alt={item.title}
                       className={`w-full ${item.orientation === 'portrait' ? 'aspect-[9/16]' : 'aspect-[16/9] md:aspect-[4/3]'} object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100`}
                     />
@@ -317,7 +320,7 @@ export default function App() {
                       <Play className="w-4 h-4" /> Watch Film
                     </div>
                   </div>
-                </motion.a>
+                </motion.div>
               ))}
             </AnimatePresence>
           </div>
@@ -434,6 +437,39 @@ export default function App() {
         <p>© {new Date().getFullYear()} Sam Visuals.</p>
         <p className="mt-4 md:mt-0">All rights reserved.</p>
       </footer>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-4 md:p-12"
+            onClick={() => setActiveVideo(null)}
+            style={{ cursor: 'auto' }}
+          >
+            <button
+              className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-[210]"
+              onClick={() => setActiveVideo(null)}
+              style={{ cursor: 'pointer' }}
+            >
+              <X className="w-10 h-10" />
+            </button>
+            <div 
+              className="w-full max-w-6xl aspect-video bg-black rounded-lg overflow-hidden relative shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <iframe
+                src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1&rel=0`}
+                className="absolute top-0 left-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
