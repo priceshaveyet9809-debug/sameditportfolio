@@ -7,10 +7,11 @@ const PORTFOLIO_ITEMS = [
     id: 1,
     title: 'The Glass House',
     category: 'Real Estate',
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    // To use a YouTube thumbnail, use the format: https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg
+    image: 'https://img.youtube.com/vi/tO01J-M3g0U/maxresdefault.jpg',
     type: 'video',
     orientation: 'landscape',
-    vimeoLink: 'https://vimeo.com/123456789'
+    youtubeLink: 'https://www.youtube.com/watch?v=cu17V4nZK-c'
   },
   {
     id: 2,
