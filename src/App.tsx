@@ -7,7 +7,7 @@ const PORTFOLIO_ITEMS = [
     id: 1,
     title: 'The Glass House',
     category: 'Real Estate',
-    youtubeId: 'cu17V4nZK-c',
+    youtubeId: 'L_LUpnjgPso',
     type: 'video',
     orientation: 'landscape',
   },
@@ -92,8 +92,21 @@ export default function App() {
   const vnTime = time.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh', weekday: 'long', hour: '2-digit', minute:'2-digit' });
   const localTime = time.toLocaleString('en-US', { weekday: 'long', hour: '2-digit', minute:'2-digit' });
   
-  const vnDay = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Ho_Chi_Minh', weekday: 'long' }).format(time);
-  const isWorking = vnDay !== 'Sunday';
+  const vnDateString = time.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+  const vnDate = new Date(vnDateString);
+  const vnDay = vnDate.getDay(); // 0 is Sunday
+  const vnHour = vnDate.getHours();
+
+  const isSunday = vnDay === 0;
+  const isSleeping = vnHour >= 0 && vnHour < 8;
+  const isWorking = !isSunday && !isSleeping;
+
+  let statusText = 'Currently Online';
+  if (isSunday) {
+    statusText = 'Currently Offline (Sunday)';
+  } else if (isSleeping) {
+    statusText = 'Currently Offline';
+  }
 
   const localOffset = -(time.getTimezoneOffset() / 60);
   const vnOffset = 7;
@@ -373,7 +386,7 @@ export default function App() {
                   <span className={`relative inline-flex rounded-full h-3 w-3 ${isWorking ? 'bg-green-500' : 'bg-red-500'}`}></span>
                 </div>
                 <span className="text-sm uppercase tracking-widest font-medium">
-                  {isWorking ? 'Currently Online' : 'Currently Offline (Sunday)'}
+                  {statusText}
                 </span>
               </div>
 
