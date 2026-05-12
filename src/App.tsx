@@ -43,14 +43,6 @@ const PORTFOLIO_ITEMS = [
     type: 'video',
     orientation: 'portrait',
   },
-  {
-    id: 6,
-    title: 'Skyline Penthouse',
-    category: 'Real Estate',
-    youtubeId: 'wnhvanZPF4U',
-    type: 'video',
-    orientation: 'landscape',
-  }
 ];
 
 export default function App() {
