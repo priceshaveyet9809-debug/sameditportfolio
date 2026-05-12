@@ -7,7 +7,7 @@ const PORTFOLIO_ITEMS = [
     id: 1,
     title: 'The Glass House',
     category: 'Real Estate',
-    youtubeId: 'L_LUpnjgPso',
+    youtubeId: 'cu17V4nZK-c',
     type: 'video',
     orientation: 'landscape',
   },
