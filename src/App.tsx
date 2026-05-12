@@ -427,7 +427,7 @@ export default function App() {
             </a>
             <span className="hidden md:block text-[var(--color-text-secondary)]">or</span>
             <a 
-              href="https://wa.me/1234567890"
+              href="http://wa.me/+84383694766"
               className="inline-flex items-center gap-3 text-base md:text-lg uppercase tracking-widest border-b border-black pb-2 hover:text-[var(--color-text-secondary)] hover:border-[var(--color-text-secondary)] transition-colors"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
